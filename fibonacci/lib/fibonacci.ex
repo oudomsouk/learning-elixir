@@ -3,14 +3,14 @@ defmodule Fibonacci do
   alias Fibonacci.Cache
 
   def fib(n) do
-    Cache.run(fn cache ->
-      cached_fib(n, cache)
+    Cache.run(fn _ ->
+      cached_fib(n)
     end)
   end
 
-  defp cached_fib(n, cache) do
-    Cache.lookup(cache, n, fn ->
-      cached_fib(n-2, cache) + cached_fib(n-1, cache)
+  defp cached_fib(n) do
+    Cache.lookup(n, fn ->
+      cached_fib(n-2) + cached_fib(n-1)
     end)
   end
 
