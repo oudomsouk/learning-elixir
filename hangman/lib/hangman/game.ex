@@ -18,10 +18,12 @@ defmodule Hangman.Game do
 
   def make_move(game = %{ game_state: state}, _guess) when state in [:won, :lost] do
     game
+    |> return_with_tally()
   end
 
   def make_move(game, guess) do
-    make_move(game, guess, is_valid(guess))
+    accept_move(game, guess, MapSet.member?(game.used, guess))
+    |> return_with_tally()
   end
 
   def tally(game) do
@@ -34,22 +36,6 @@ defmodule Hangman.Game do
   end
 
   ############################
-  defp is_valid(guess) do
-    is_lowercase(guess)
-  end
-
-  defp is_lowercase(guess) do
-    String.match?(guess, ~r/[a-z]/)
-  end
-
-  defp make_move(game, _guess, _is_valid = false) do
-    Map.put(game, :game_state, :invalid_guess)
-  end
-
-  defp make_move(game, guess, _is_valid) do
-    accept_move(game, guess, MapSet.member?(game.used, guess))
-  end
-
 
   defp accept_move(game, _guess, _already_guessed = true) do
     Map.put(game, :game_state, :already_used)
@@ -88,5 +74,7 @@ defmodule Hangman.Game do
 
   defp reveal_letter(letter, _in_word = true), do: letter
   defp reveal_letter(_letter, _not_in_word), do: "_"
+
+  defp return_with_tally(game), do: { game, tally(game) }
 
 end
