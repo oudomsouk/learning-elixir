@@ -16,4 +16,12 @@ defmodule GallowsWeb.HangmanView do
     |> Enum.join(" ")
   end
 
+  def turn(left, target) when target >= left do
+    "opacity: 1"
+  end
+
+  def turn(left, target) do
+    "opacity: 0.1"
+  end
+
 end

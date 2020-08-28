@@ -618,6 +618,12 @@ header nav a {
   display: block;
 }
 
+.gameFieldWrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 5rem;
+}
+
 @media (min-width: 40rem) {
   /* Small devices (landscape phones, 576px and up) */
   header section {
